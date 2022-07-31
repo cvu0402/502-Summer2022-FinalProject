@@ -16,3 +16,15 @@ df_zip = pd.read_csv('https://raw.githubusercontent.com/USD-502-FinalProject/502
 # DATA QUALITY ##################################################################
 print(df.head(5))
 print(df.columns)
+
+
+#################################################################################
+# INSERT CODE BELOW
+# Steps to integrate your code:
+# 1. Download this file
+# 2. On your computer, add your code
+# 3. Make sure it runs without errors
+# 4. Copy paste back into the master code here in GitHub
+# 5. Under "Commit Changes", add description of your changes
+# 6. Click "Commit Changes"
+#################################################################################
