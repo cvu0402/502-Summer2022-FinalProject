@@ -28,3 +28,58 @@ print(df.columns)
 # 5. Under "Commit Changes", add description of your changes
 # 6. Click "Commit Changes"
 #################################################################################
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+churn = pd.read_csv("/Users/vannesasalazar/Documents/ADS502/Group project /telecom_customer_churn.csv")
+
+print('Number of instances = %d' % (churn.shape[0]))
+print('Number of attributes = %d' % (churn.shape[1]))
+churn.head()
+
+for col in churn.columns:
+    print('\t%s: %d' % (col,churn[col].isna().sum()))
+    
+    
+print('Number of rows in original data = %d' % (churn.shape[0]))
+
+churn.dropna(how='any', inplace=True)
+
+print('Number of rows after discarding missing values = %d' % (churn2.shape[0]))
+
+for col in churn.columns:
+    print('\t%s: %d' % (col,churn[col].isna().sum()))
+    
+churn.dtypes
+
+
+churn2 = churn.drop(['Customer ID', 
+                     'Number of Dependents', 'Gender', 'Married', 'City', 'Zip Code', 'Latitude',
+                     'Longitude', 'Offer', 'Phone Service', 'Internet Type', 'Multiple Lines', 'Internet Service', 
+                     'Online Security', 'Online Backup',
+                     'Device Protection Plan', 'Premium Tech Support',
+                     'Streaming TV', 'Streaming Music', 'Streaming Movies',
+                     'Unlimited Data', 'Contract', 'Paperless Billing',
+                     'Payment Method', 'Customer Status', 'Churn Category',
+                     'Churn Reason'],axis=1)
+
+churn2.boxplot(figsize=(20, 20))
+
+sns.boxplot(x=churn['Total Revenue'])
+
+Z = (churn2-churn2.mean())/churn2.std()
+Z
+
+print('Number of rows before discarding outliers = %d' % (Z.shape[0]))
+
+Z2 = Z.loc[((Z > -3).sum(axis=1)==11) & ((Z <= 3).sum(axis=1)==11),:]
+print('Number of rows after discarding missing values = %d' % (Z2.shape[0]))
+
+
+dups = churn2.duplicated()
+print('Number of duplicate rows = %d' % (dups.sum()))
+
