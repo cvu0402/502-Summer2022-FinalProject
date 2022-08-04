@@ -29,4 +29,68 @@ print(df.columns)
 # 6. Click "Commit Changes"
 #################################################################################
 
+# Identify the data types of key variables
+df.info()
 
+# Key statistics of studied variables
+df_zip.describe()
+
+# Drop "Customer ID", "Latitude", and "Longitude" columns
+# These columns do not fit the requirements needed for our analysis
+df.drop(["Customer ID", "Zip Code", "Latitude","Longitude"], axis=1, inplace = True)
+
+# Identify the data types of key variables
+print(df.info(), "\n")
+print(df_zip.info())
+
+# Count of missing values per column in churn data frame
+print(df.isnull().sum(), "\n")
+
+# Count of missing values per column in zipcode data frame
+print(df_zip.isnull().sum())
+
+# Display column unique count to check for outliers
+print("Gender unique count:", df['Gender'].unique())
+print("Married unique count:", df['Married'].unique())
+print("Multiple Lines unique count:", df['Multiple Lines'].unique())
+print("Internet Type unique count:", df['Internet Type'].unique())
+print("Number of Referrals Type unique count:", df['Number of Referrals'].unique())
+
+# Drop all column values with NaN values
+# Regression may be better for this model as many column values missing
+# df = df.dropna(axis=0, how="any")
+
+# Let X = predictor variable and y = target variable
+X1 = pd.DataFrame(df[['Monthly Charge', 'Total Charges', 'Total Long Distance Charges']])
+y1 = pd.DataFrame(df[['Avg Monthly Long Distance Charges']])
+
+# Add a constant variable to the predictor variables
+X1 = sm.add_constant(X1)
+model01 = sm.OLS(y1, X1).fit()
+df['Avg Monthly Long Distance Charges'].fillna(sm.OLS(y1, X1).fit(), inplace=True)
+
+# Let X = predictor variable and y = target variable
+X2 = pd.DataFrame(df[['Monthly Charge', 'Total Revenue']])
+y2 = pd.DataFrame(df[['Multiple Lines']])
+
+# Add a constant variable to the predictor variables
+X = sm.add_constant(X2)
+model02 = sm.OLS(pd.get_dummies(y2), X2).fit()
+df['Multiple Lines'].fillna(sm.OLS(pd.get_dummies(y2), X2).fit(), inplace=True)
+
+# Code below returns error (Work in Progress)
+df['Internet Type'].replace(np.nan, df['Internet Type'].mode(), inplace=True)
+df['Avg Monthly GB Download'].replace(np.nan, df['Avg Monthly GB Download'].mode(), inplace=True)
+df['Online Security'].replace(np.nan, df['Online Security'].mode(), inplace=True)
+df['Online Backup'].replace(np.nan, df['Online Backup'].mode(), inplace=True)
+df['Device Protection Plan'].replace(np.nan, df['Device Protection Plan'].mode(), inplace=True)
+df['Premium Tech Support'].replace(np.nan, df['Premium Tech Support'].mode(), inplace=True)
+df['Streaming TV'].replace(np.nan, df['Streaming TV'].mode(), inplace=True)
+df['Streaming Movies'].replace(np.nan, df['Streaming Movies'].mode(), inplace=True)
+df['Streaming Music'].replace(np.nan, df['Streaming Music'].mode(), inplace=True)
+df['Unlimited Data'].replace(np.nan, df['Unlimited Data'].mode(), inplace=True)
+df['Churn Category'].replace(np.nan, df['Churn Category'].mode(), inplace=True)
+df['Churn Reason'].replace(np.nan, df['Churn Reason'].mode(), inplace=True)
+
+# Confirm that there are no more NaN values in data frame
+print(df.isnull().sum(), "\n")
