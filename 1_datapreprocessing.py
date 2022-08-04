@@ -35,7 +35,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-churn = pd.read_csv("/Users/vannesasalazar/Documents/ADS502/Group project /telecom_customer_churn.csv")
+churn = pd.read_csv('https://raw.githubusercontent.com/USD-502-FinalProject/502-Summer2022-FinalProject/main/telecom_customer_churn.csv', sep=',')
 
 print('Number of instances = %d' % (churn.shape[0]))
 print('Number of attributes = %d' % (churn.shape[1]))
